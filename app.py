@@ -4,6 +4,12 @@ from flask_swagger_ui import get_swaggerui_blueprint
 from services.resource_services import ResourceService
 from routes.resource_routes import ResourceRoutes
 from schemas.resource_schemas import ResourceSchema
+
+from services.comment_services import CommentService
+from routes.comment_routes import CommentRoutes
+from schemas.comment_schemas import CommentSchema
+
+
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -20,7 +26,9 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 db_connector = ResourceModel()
-db_connector.connect_to_database()
+db_connector.connectToDatabase()
+
+# For resources
 
 resource_service = ResourceService(db_connector)
 resource_schema = ResourceSchema()
@@ -28,11 +36,19 @@ resource_schema = ResourceSchema()
 resource_blueprint = ResourceRoutes(resource_service, resource_schema)
 app.register_blueprint(resource_blueprint)
 
+# For comments
+
+comment_service = CommentService(db_connector)
+comment_schema = CommentSchema()
+
+comment_blueprint = CommentRoutes(comment_service, comment_schema)
+app.register_blueprint(comment_blueprint)
+
 CORS(app, resources={r'/api/resources': {'origins': 'http://localhost:3000'}})
 
 if __name__ == '__main__':
     try:
         app.run(debug=True)
     finally:
-        db_connector.close_connection()
+        db_connector.closeConnection()
 

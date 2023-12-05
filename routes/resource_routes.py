@@ -22,6 +22,7 @@ class ResourceRoutes(Blueprint):
 
     def getResources(self):
         try:
+            
             self.resources = self.resource_service.getResources()
             return jsonify(self.resources), 200
         except Exception as e:
