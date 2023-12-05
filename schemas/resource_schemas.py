@@ -4,6 +4,8 @@ class ResourceSchema:
     title = fields.String(required=True)
     author = fields.String(required=True)
     description = fields.String(required=True)
+    pdf_url = fields.String(required=True)
+    book_cover = fields.String(required=True)
 
     @validates('title')
     def validateTitle(self, value):
@@ -17,5 +19,5 @@ class ResourceSchema:
 
     @validates('description')
     def validateDescription(self, value):
-        if len(value) < 5:
-            raise ValidationError('Description must be at leat 5 characters long.')
+        if len(value) < 10:
+            raise ValidationError('Description must be at leat 10 characters long.')
