@@ -70,7 +70,6 @@ class ResourceRoutes(Blueprint):
             
     def updateResource(self, resource_id):
         try:
-            print("Hola desde el servicio de rutas")
             self.data = request.json
             if not self.data:
                 return jsonify({'error': 'Invalid data'}), 400
@@ -80,44 +79,30 @@ class ResourceRoutes(Blueprint):
             self.title = self.data.get('title')
             self.author = self.data.get('author')
             self.description = self.data.get('description')
-
-            print(self.title)
-            print(self.author)
-            print(self.description)    
-
-
+  
             self.pdf_url = self.data.get('pdf_url')
             self.book_cover =self.data.get('book_cover')
 
             try: # Validations for the data
-                print("Validandoooo...")
                 if self.title:
                     self.resource_schema.validateTitle(self.title)
 
                 if self.author:
                     self.resource_schema.validateAuthor(self.author)
-                    
+
                 if self.description:
                     self.resource_schema.validateDescription(self.description)
 
-                print("Termine de validaaaaar...")
             except ValidationError as e:
                  return(jsonify({'error': 'Invalid data', 'details': e.messages}), 400)
             
-            print("Ya valide los datos")
 
             self.resource_updated = self.resource_service.updateResource(resource_id, self.data)
-
-            print("Sali del servicio (no militar)")
-
-            print(self.resource_updated)
 
             if self.resource_updated:
                 return jsonify(self.resource_updated), 200
             else:
                 return jsonify({'error': 'Resource not found'}), 404
-
-
 
         except Exception as e:
             log.critical(f'Error updating the resource in the database: {e}')

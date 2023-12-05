@@ -34,12 +34,11 @@ class ResourceService:
 
     def updateResource(self, resource_id, updated_data):
         try:
-            print("Hola desde el servicio del try")
+            
             updated_resource = self.getResourceById(resource_id)
             if updated_resource:
                 result = self.db_connector.db.resources.update_one({'_id': str(resource_id)}, {'$set': updated_data})
-                print(result)
-                print(updated_resource)
+
                 if result.modified_count > 0:
                     return updated_resource
                 else:
