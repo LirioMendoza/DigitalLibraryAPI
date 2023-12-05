@@ -8,7 +8,7 @@ class ResourceModel:
         self.client = None
         self.db = None
 
-    def connect_to_database(self):
+    def connectToDatabase(self):
         load_dotenv()
         mongodb_user = os.environ.get('MONGODB_USER')
         mongodb_pass = os.environ.get('MONGODB_PASS')
@@ -35,6 +35,6 @@ class ResourceModel:
             log.critical(f'Failed to connect to the database: {e}')
             raise
 
-    def close_connection(self):
+    def closeConnection(self):
         if self.client:
             self.client.close()
