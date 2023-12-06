@@ -24,3 +24,35 @@ class UserService:
         except Exception as e:
             log.critical(f'Error fetching the user from the database: {e}')
             return jsonify({'error': f'Error fetching the user from the database: {e}'}), 500
+
+    def updateUser(self, user_id, update_data):
+        try:
+            updated_user =self.getUser(user_id)
+            if updated_user:
+                result = self.db_connector.db.users.update_one({'_id':str(user_id)},{'$set': updated_user})
+                print("Los datos a actualizar son:")
+                print(result)
+                if result.modified_count>0:
+                    return updated_user
+                else:
+                    return {'message': 'The comment is already up-to-date'}
+            else:
+                return None
+                
+        except Exception as e:
+            log.critical(f'Error updating the comment data User: {e}')
+            return jsonify({'error': f'Error updating the comment data User: {e}'}), 500
+
+    def deleteUser(self, user_id):
+        try:
+            deleted_user = self.getUser(user_id)
+            if deleted_user:
+                self.db_connector.db.users.delete_one({'_id': str(user_id)})
+                print("Delete User")
+                return deleted_user
+            else:
+                return None
+
+        except Exception as e:
+            log.critical(f'Error deleting the user data: {e}')
+            return jsonify({'error': f'Error deleting the user data: {e}'}), 500
