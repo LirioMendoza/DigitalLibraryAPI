@@ -35,13 +35,13 @@ class UserService:
                 if result.modified_count>0:
                     return updated_user
                 else:
-                    return {'message': 'The comment is already up-to-date'}
+                    return {'message': 'The user is already up-to-date'}
             else:
                 return None
                 
         except Exception as e:
-            log.critical(f'Error updating the comment data User: {e}')
-            return jsonify({'error': f'Error updating the comment data User: {e}'}), 500
+            log.critical(f'Error updating the user data User: {e}')
+            return jsonify({'error': f'Error updating the user data User: {e}'}), 500
 
     def deleteUser(self, user_id):
         try:

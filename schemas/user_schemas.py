@@ -1,6 +1,6 @@
 from marshmallow import fields, validates, ValidationError
 import re
-class CommentSchema:
+class UserSchema:
     user_id = fields.Integer(required=True)
     user_name = fields.String(required=True)
     fist_name = fields.String(required=True)
