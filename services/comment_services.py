@@ -23,3 +23,41 @@ class CommentService:
         except Exception as e:
             log.critical(f'Error creating the new comments: {e}')
             return jsonify({'error': f'Error creating the new comments: {e}'}), 500
+    
+    def getCommentById(self, comment_id):
+        try:
+            self.comment = self.db_connector.db.comments.find_one({'_id': str(comment_id)})
+            return self.comment
+        except Exception as e:
+            log.critical(f'Error fetching the comment id from the database: {e}')
+            return jsonify({'error': f'Error fetching the commit id from the database: {e}'}), 500
+
+    def updateComment(self, comment_id, updated_data):
+        try:
+            updated_comment = self.getCommentById(comment_id)
+            if updated_comment:
+                result = self.db_connector.db.comments.update_one({'_id': str(comment_id)}, {'$set': updated_data})
+                print(result)
+                if result.modified_count > 0:
+                    return updated_comment
+                else:
+                    return {'message': 'The comment is already up-to-date'}
+            else:
+                return None
+
+        except Exception as e:
+            log.critical(f'Error updating the comment data: {e}')
+            return jsonify({'error': f'Error updating the comment data: {e}'}), 500
+        
+    def deleteComment(self, comment_id):
+        try:
+            deleted_comment = self.getCommentById(comment_id)
+            if deleted_comment:
+                self.db_connector.db.comments.delete_one({'_id': str(comment_id)})
+                return deleted_comment
+            else:
+                return None
+
+        except Exception as e:
+            log.critical(f'Error deleting the comment data: {e}')
+            return jsonify({'error': f'Error deleting the comment data: {e}'}), 500
