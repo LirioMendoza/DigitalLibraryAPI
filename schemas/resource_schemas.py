@@ -21,3 +21,9 @@ class ResourceSchema:
     def validateDescription(self, value):
         if len(value) < 10:
             raise ValidationError('Description must be at leat 10 characters long.')
+
+    @validates('URL')
+    def validateURL(self, value):
+        if len(value) < 10:
+            raise ValidationError('The URL must be at leat 10 characters long.')
+        

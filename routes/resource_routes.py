@@ -47,6 +47,8 @@ class ResourceRoutes(Blueprint):
                 self.resource_schema.validateTitle(self.title)
                 self.resource_schema.validateAuthor(self.author)
                 self.resource_schema.validateDescription(self.description)
+                self.resource_schema.validateURL(self.pdf_url)
+                self.resource_schema.validateURL(self.book_cover)
             except ValidationError as e:
                  return(jsonify({'error': 'Invalid data', 'details': e.messages}), 400)
             
@@ -94,6 +96,12 @@ class ResourceRoutes(Blueprint):
 
                 if self.description:
                     self.resource_schema.validateDescription(self.description)
+
+                if self.pdf_url:
+                    self.resource_schema.validateURL(self.pdf_url)
+
+                if self.book_cover:
+                    self.resource_schema.validateURL(self.book_cover)
 
             except ValidationError as e:
                  return(jsonify({'error': 'Invalid data', 'details': e.messages}), 400)

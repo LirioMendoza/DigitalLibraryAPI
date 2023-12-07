@@ -1,5 +1,6 @@
 from marshmallow import fields, validates, ValidationError
 import re
+
 class UserSchema:
     username = fields.String(required=True)
     first_name = fields.String(required=True)
