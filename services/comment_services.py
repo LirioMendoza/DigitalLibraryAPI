@@ -8,7 +8,7 @@ class CommentService:
     # Function that obtains the comment with the specified resource_id
     def getComments(self, resource_id):
         try:
-            self.comments = list(self.db_connector.db.comments.find({'resource_id': resource_id}))
+            self.comments = list(self.db_connector.db.comments.find({'resource_id': str(resource_id)}))
             return self.comments
         except Exception as e:
             log.critical(f'Error fetching all comments from the database: {e}')
