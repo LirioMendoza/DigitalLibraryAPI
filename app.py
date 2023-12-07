@@ -1,13 +1,13 @@
 from flask import Flask
-from models.resource_models import ResourceModel
+from resource.user_models import UserModel
 from flask_swagger_ui import get_swaggerui_blueprint
-from services.resource_services import ResourceService
-from routes.resource_routes import ResourceRoutes
-from schemas.resource_schemas import ResourceSchema
+from services.user_services import UserService
+from routes.user_routes import UserRoutes
+from schemas.user_schemas import UserSchema
 
-from services.comment_services import CommentService
-from routes.comment_routes import CommentRoutes
-from schemas.comment_schemas import CommentSchema
+from services.user_services import UserService
+from routes.user_routes import UserRoutes
+from schemas.user_schemas import UserSchema
 
 
 from flask_cors import CORS
@@ -25,26 +25,19 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
 )
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
-db_connector = ResourceModel()
+db_connector = UserModel()
 db_connector.connectToDatabase()
 
-# For resources
+# For users
 
-resource_service = ResourceService(db_connector)
-resource_schema = ResourceSchema()
+user_service = UserService(db_connector)
+user_schema = UserSchema()
 
-resource_blueprint = ResourceRoutes(resource_service, resource_schema)
-app.register_blueprint(resource_blueprint)
+user_blueprint = UserRoutes(user_service, user_schema)
+app.register_blueprint(user_blueprint)
 
-# For comments
 
-comment_service = CommentService(db_connector)
-comment_schema = CommentSchema()
-
-comment_blueprint = CommentRoutes(comment_service, comment_schema)
-app.register_blueprint(comment_blueprint)
-
-CORS(app, resources={r'/api/resources': {'origins': 'http://localhost:3000'}})
+CORS(app, user={r'/api/sign-up': {'origins': 'http://localhost:3000'}})
 
 if __name__ == '__main__':
     try:
