@@ -63,3 +63,10 @@ class ResourceService:
             log.critical(f'Error deleting the resource data: {e}')
             return jsonify({'error': f'Error deleting the resource data: {e}'}), 500
 
+    def getResourcePdf(self, resource_id):
+        try:
+            self.resource = self.db_connector.db.resources.find_one({'_id': str(resource_id)})
+            return self.resource['pdf_url']
+        except Exception as e:
+            log.critical(f'Error fetching the resource id from the database: {e}')
+            return jsonify({'error': f'Error fetching the resource id from the database: {e}'}), 500
