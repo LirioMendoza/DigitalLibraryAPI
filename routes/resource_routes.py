@@ -18,7 +18,8 @@ class ResourceRoutes(Blueprint):
         self.route('/api/resources/<int:resource_id>', methods=['GET'])(self.getResourceById)
         self.route('/api/resources/<int:resource_id>', methods=['PUT'])(self.updateResource)
         self.route('/api/resources/<int:resource_id>', methods=['DELETE'])(self.deleteResource)
-
+        
+        self.route('/api/resources/<int:resource_id>/pdf', methods=['GET'])(self.getResourcePdf)
 
     def getResources(self):
         try:
@@ -118,5 +119,12 @@ class ResourceRoutes(Blueprint):
                 return jsonify({'error': 'Resource not found'}), 404
         except Exception as e:
             log.critical(f'Error deleting the resource in the database: {e}')
+
+    def getResourcePdf(self, resource_id):
+        self.resource_pdf = self.resource_service.getResourcePdf(resource_id)
+        if self.resource_pdf:
+            return jsonify(self.resource_pdf), 200
+        else: 
+            return jsonify({'error': 'PDF file not found'}), 404
 
         
