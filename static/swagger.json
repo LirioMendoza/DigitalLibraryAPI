@@ -1,0 +1,1737 @@
+{
+  "openapi": "3.1.0",
+  "swagger": "2.0",
+  "info": {
+    "title": "Interactive Digital Library",
+    "description": "Interactive digital library that offers e-books, magazines, and educational resources. Each resource will be a separate micro frontend, and users will be able to read, annotate, and share content.\n\nSome useful links:\n- [The Interactive Digital Library API repository](https://github.com/LirioMendoza/DigitalLibraryAPI)"
+  },
+  "servers": [
+    {
+      "url": ""
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "Operations about user"
+    },
+    {
+      "name": "resources",
+      "description": "Everything about the library resources",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "comment",
+      "description": "Operations about comments"
+    }
+  ],
+  "paths": {
+    "/sign-up": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Add a new user",
+        "description": "Add a new user to the library",
+        "operationId": "addUser",
+        "parameters": [
+          {
+            "name": "user-data",
+            "in": "body",
+            "required": true,
+            "description": "Resource data to add",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    10
+                  ]
+                },
+                "username": {
+                  "type": "string",
+                  "description": "User name",
+                  "examples": [
+                    "aketzalirio"
+                  ]
+                },
+                "first_name": {
+                  "type": "string",
+                  "description": "First name",
+                  "examples": [
+                    "Lirio"
+                  ]
+                },
+                "last_name": {
+                  "type": "string",
+                  "description": "First name",
+                  "examples": [
+                    "Mendoza"
+                  ]
+                },
+                "email": {
+                  "type": "string",
+                  "description": "User email",
+                  "examples": [
+                    "lirio@gmail.com"
+                  ]
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful creation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "User name",
+                      "examples": [
+                        "aketzalirio"
+                      ]
+                    },
+                    "first_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Lirio"
+                      ]
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Mendoza"
+                      ]
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User email",
+                      "examples": [
+                        "lirio@gmail.com"
+                      ]
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/profile/{user-id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get an existing user",
+        "description": "Get an existing user by Id",
+        "operationId": "getUser",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "User name",
+                      "examples": [
+                        "aketzalirio"
+                      ]
+                    },
+                    "first_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Lirio"
+                      ]
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Mendoza"
+                      ]
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User email",
+                      "examples": [
+                        "lirio@gmail.com"
+                      ]
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update an existing user",
+        "description": "Update an existing user by Id",
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the user to update",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "updated-data",
+            "in": "body",
+            "required": true,
+            "description": "Data to update",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    10
+                  ]
+                },
+                "username": {
+                  "type": "string",
+                  "description": "User name",
+                  "examples": [
+                    "aketzalirio"
+                  ]
+                },
+                "first_name": {
+                  "type": "string",
+                  "description": "First name",
+                  "examples": [
+                    "Lirio"
+                  ]
+                },
+                "last_name": {
+                  "type": "string",
+                  "description": "First name",
+                  "examples": [
+                    "Mendoza"
+                  ]
+                },
+                "email": {
+                  "type": "string",
+                  "description": "User email",
+                  "examples": [
+                    "lirio@gmail.com"
+                  ]
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Password"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "User name",
+                      "examples": [
+                        "aketzalirio"
+                      ]
+                    },
+                    "first_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Lirio"
+                      ]
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Mendoza"
+                      ]
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User email",
+                      "examples": [
+                        "lirio@gmail.com"
+                      ]
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes a user",
+        "description": "Deletes a user by Id",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "user-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the user to delete",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "User name",
+                      "examples": [
+                        "aketzalirio"
+                      ]
+                    },
+                    "first_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Lirio"
+                      ]
+                    },
+                    "last_name": {
+                      "type": "string",
+                      "description": "First name",
+                      "examples": [
+                        "Mendoza"
+                      ]
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User email",
+                      "examples": [
+                        "lirio@gmail.com"
+                      ]
+                    },
+                    "password": {
+                      "type": "string",
+                      "description": "Password"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/resources": {
+      "get": {
+        "tags": [
+          "resources"
+        ],
+        "summary": "Get the existing resources",
+        "description": "Returns a list of all resources in the library",
+        "operationId": "getResources",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "examples": [
+                          10
+                        ]
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Resource title",
+                        "examples": [
+                          "El Principito"
+                        ]
+                      },
+                      "author": {
+                        "type": "string",
+                        "description": "Resource author",
+                        "examples": [
+                          "Antoine de Saint-Exupéry"
+                        ]
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Short description of the resource",
+                        "examples": [
+                          "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+                        ]
+                      },
+                      "book_cover": {
+                        "type": "string",
+                        "description": "Cover URL",
+                        "examples": [
+                          "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+                        ]
+                      },
+                      "pdf_url": {
+                        "type": "string",
+                        "description": "PDF URL",
+                        "examples": [
+                          "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "resources"
+        ],
+        "summary": "Add a new resource",
+        "description": "Add a new resource to the library",
+        "operationId": "addResource",
+        "parameters": [
+          {
+            "name": "resource",
+            "in": "body",
+            "required": true,
+            "description": "Resource data to add",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    10
+                  ]
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Resource title",
+                  "examples": [
+                    "El Principito"
+                  ]
+                },
+                "author": {
+                  "type": "string",
+                  "description": "Resource author",
+                  "examples": [
+                    "Antoine de Saint-Exupéry"
+                  ]
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Short description of the resource",
+                  "examples": [
+                    "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+                  ]
+                },
+                "book_cover": {
+                  "type": "string",
+                  "description": "Cover URL",
+                  "examples": [
+                    "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+                  ]
+                },
+                "pdf_url": {
+                  "type": "string",
+                  "description": "PDF URL",
+                  "examples": [
+                    "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful creation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "El Principito"
+                      ]
+                    },
+                    "author": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Antoine de Saint-Exupéry"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Short description of the resource",
+                      "examples": [
+                        "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+                      ]
+                    },
+                    "book_cover": {
+                      "type": "string",
+                      "description": "Cover URL",
+                      "examples": [
+                        "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+                      ]
+                    },
+                    "pdf_url": {
+                      "type": "string",
+                      "description": "PDF URL",
+                      "examples": [
+                        "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/resources/{resource-id}": {
+      "get": {
+        "tags": [
+          "resources"
+        ],
+        "summary": "Get an existing resource",
+        "description": "Get an existing resource by Id",
+        "operationId": "getResource",
+        "parameters": [
+          {
+            "name": "resource-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the resource",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "El Principito"
+                      ]
+                    },
+                    "author": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Antoine de Saint-Exupéry"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Short description of the resource",
+                      "examples": [
+                        "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+                      ]
+                    },
+                    "book_cover": {
+                      "type": "string",
+                      "description": "Cover URL",
+                      "examples": [
+                        "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+                      ]
+                    },
+                    "pdf_url": {
+                      "type": "string",
+                      "description": "PDF URL",
+                      "examples": [
+                        "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "resources"
+        ],
+        "summary": "Update an existing resource",
+        "description": "Update an existing resource by Id",
+        "operationId": "updateResource",
+        "parameters": [
+          {
+            "name": "resource-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the resource to update",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "updated-data",
+            "in": "body",
+            "required": true,
+            "description": "Data to update",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    10
+                  ]
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Resource title",
+                  "examples": [
+                    "El Principito"
+                  ]
+                },
+                "author": {
+                  "type": "string",
+                  "description": "Resource author",
+                  "examples": [
+                    "Antoine de Saint-Exupéry"
+                  ]
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Short description of the resource",
+                  "examples": [
+                    "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+                  ]
+                },
+                "book_cover": {
+                  "type": "string",
+                  "description": "Cover URL",
+                  "examples": [
+                    "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+                  ]
+                },
+                "pdf_url": {
+                  "type": "string",
+                  "description": "PDF URL",
+                  "examples": [
+                    "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "El Principito"
+                      ]
+                    },
+                    "author": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Antoine de Saint-Exupéry"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Short description of the resource",
+                      "examples": [
+                        "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+                      ]
+                    },
+                    "book_cover": {
+                      "type": "string",
+                      "description": "Cover URL",
+                      "examples": [
+                        "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+                      ]
+                    },
+                    "pdf_url": {
+                      "type": "string",
+                      "description": "PDF URL",
+                      "examples": [
+                        "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "resources"
+        ],
+        "summary": "Deletes a resource",
+        "description": "Deletes a resource by Id",
+        "operationId": "deleteResource",
+        "parameters": [
+          {
+            "name": "resource-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the resource to update",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "El Principito"
+                      ]
+                    },
+                    "author": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Antoine de Saint-Exupéry"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Short description of the resource",
+                      "examples": [
+                        "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+                      ]
+                    },
+                    "book_cover": {
+                      "type": "string",
+                      "description": "Cover URL",
+                      "examples": [
+                        "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+                      ]
+                    },
+                    "pdf_url": {
+                      "type": "string",
+                      "description": "PDF URL",
+                      "examples": [
+                        "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/resources/{resource-id}/pdf": {
+      "get": {
+        "tags": [
+          "resources"
+        ],
+        "summary": "Get the PDF of an existing resource",
+        "description": "Get the PDF of an existing resource by Id",
+        "operationId": "getResourcePdf",
+        "parameters": [
+          {
+            "name": "resource-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the resource",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "description": "PDF URL",
+                  "format": "URI",
+                  "examples": [
+                    "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Resource not found"
+          }
+        }
+      }
+    },
+    "/resources/{resource-id}/comments": {
+      "get": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "Get the existing comments for a resource",
+        "description": "Returns a list of all comments in a resource",
+        "operationId": "getComments",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "examples": [
+                          10
+                        ]
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Resource title",
+                        "examples": [
+                          "Muy buen libro"
+                        ]
+                      },
+                      "comment": {
+                        "type": "string",
+                        "description": "Resource author",
+                        "examples": [
+                          "Un clásico de la literatura",
+                          "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                          "porque cada vez que lo lees y a medida que vas madurando",
+                          "el significado cambia a nuestros ojos."
+                        ]
+                      },
+                      "rating": {
+                        "type": "integer",
+                        "format": "int64",
+                        "examples": [
+                          5
+                        ],
+                        "minimum": 0,
+                        "maximum": 5
+                      },
+                      "resource_id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "examples": [
+                          5
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "Add a new user",
+        "description": "Add a new user to the library",
+        "operationId": "addComment",
+        "parameters": [
+          {
+            "name": "comment-data",
+            "in": "body",
+            "required": true,
+            "description": "Comment data to add",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    10
+                  ]
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Resource title",
+                  "examples": [
+                    "Muy buen libro"
+                  ]
+                },
+                "comment": {
+                  "type": "string",
+                  "description": "Resource author",
+                  "examples": [
+                    "Un clásico de la literatura",
+                    "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                    "porque cada vez que lo lees y a medida que vas madurando",
+                    "el significado cambia a nuestros ojos."
+                  ]
+                },
+                "rating": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    5
+                  ],
+                  "minimum": 0,
+                  "maximum": 5
+                },
+                "resource_id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    5
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Successful creation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "Muy buen libro"
+                      ]
+                    },
+                    "comment": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Un clásico de la literatura",
+                        "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                        "porque cada vez que lo lees y a medida que vas madurando",
+                        "el significado cambia a nuestros ojos."
+                      ]
+                    },
+                    "rating": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ],
+                      "minimum": 0,
+                      "maximum": 5
+                    },
+                    "resource_id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    },
+    "/resources/comments/{comment-id}": {
+      "get": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "Get an existing comment",
+        "description": "Get an existing comment by Id",
+        "operationId": "getComment",
+        "parameters": [
+          {
+            "name": "comment-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the resource",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "Muy buen libro"
+                      ]
+                    },
+                    "comment": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Un clásico de la literatura",
+                        "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                        "porque cada vez que lo lees y a medida que vas madurando",
+                        "el significado cambia a nuestros ojos."
+                      ]
+                    },
+                    "rating": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ],
+                      "minimum": 0,
+                      "maximum": 5
+                    },
+                    "resource_id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Comment not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "Update an existing comment",
+        "description": "Update an existing comment by Id",
+        "operationId": "updateComment",
+        "parameters": [
+          {
+            "name": "comment-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the resource",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "updated-data",
+            "in": "body",
+            "required": true,
+            "description": "Data to update",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    10
+                  ]
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Resource title",
+                  "examples": [
+                    "Muy buen libro"
+                  ]
+                },
+                "comment": {
+                  "type": "string",
+                  "description": "Resource author",
+                  "examples": [
+                    "Un clásico de la literatura",
+                    "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                    "porque cada vez que lo lees y a medida que vas madurando",
+                    "el significado cambia a nuestros ojos."
+                  ]
+                },
+                "rating": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    5
+                  ],
+                  "minimum": 0,
+                  "maximum": 5
+                },
+                "resource_id": {
+                  "type": "integer",
+                  "format": "int64",
+                  "examples": [
+                    5
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "Muy buen libro"
+                      ]
+                    },
+                    "comment": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Un clásico de la literatura",
+                        "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                        "porque cada vez que lo lees y a medida que vas madurando",
+                        "el significado cambia a nuestros ojos."
+                      ]
+                    },
+                    "rating": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ],
+                      "minimum": 0,
+                      "maximum": 5
+                    },
+                    "resource_id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "comment"
+        ],
+        "summary": "Deletes a comment",
+        "description": "Deletes a comment by Id",
+        "operationId": "deleteComment",
+        "parameters": [
+          {
+            "name": "comment-id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the resource",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        10
+                      ]
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Resource title",
+                      "examples": [
+                        "Muy buen libro"
+                      ]
+                    },
+                    "comment": {
+                      "type": "string",
+                      "description": "Resource author",
+                      "examples": [
+                        "Un clásico de la literatura",
+                        "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                        "porque cada vez que lo lees y a medida que vas madurando",
+                        "el significado cambia a nuestros ojos."
+                      ]
+                    },
+                    "rating": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ],
+                      "minimum": 0,
+                      "maximum": 5
+                    },
+                    "resource_id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "examples": [
+                        5
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "401": {
+            "description": "The user has not been authenticated"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [
+              10
+            ]
+          },
+          "username": {
+            "type": "string",
+            "description": "User name",
+            "examples": [
+              "aketzalirio"
+            ]
+          },
+          "first_name": {
+            "type": "string",
+            "description": "First name",
+            "examples": [
+              "Lirio"
+            ]
+          },
+          "last_name": {
+            "type": "string",
+            "description": "First name",
+            "examples": [
+              "Mendoza"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "description": "User email",
+            "examples": [
+              "lirio@gmail.com"
+            ]
+          },
+          "password": {
+            "type": "string",
+            "description": "Password"
+          }
+        }
+      },
+      "Resource": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [
+              10
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "Resource title",
+            "examples": [
+              "El Principito"
+            ]
+          },
+          "author": {
+            "type": "string",
+            "description": "Resource author",
+            "examples": [
+              "Antoine de Saint-Exupéry"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "description": "Short description of the resource",
+            "examples": [
+              "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+            ]
+          },
+          "book_cover": {
+            "type": "string",
+            "description": "Cover URL",
+            "examples": [
+              "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+            ]
+          },
+          "pdf_url": {
+            "type": "string",
+            "description": "PDF URL",
+            "examples": [
+              "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+            ]
+          }
+        }
+      },
+      "ResourcesList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64",
+              "examples": [
+                10
+              ]
+            },
+            "title": {
+              "type": "string",
+              "description": "Resource title",
+              "examples": [
+                "El Principito"
+              ]
+            },
+            "author": {
+              "type": "string",
+              "description": "Resource author",
+              "examples": [
+                "Antoine de Saint-Exupéry"
+              ]
+            },
+            "description": {
+              "type": "string",
+              "description": "Short description of the resource",
+              "examples": [
+                "El Principito es una narración corta del escritor francés Antoine de Saint-Exupéry..."
+              ]
+            },
+            "book_cover": {
+              "type": "string",
+              "description": "Cover URL",
+              "examples": [
+                "https://m.media-amazon.com/images/I/41ZHzrJEOOS._SY445_SX342_.jpg"
+              ]
+            },
+            "pdf_url": {
+              "type": "string",
+              "description": "PDF URL",
+              "examples": [
+                "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+              ]
+            }
+          }
+        }
+      },
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [
+              10
+            ]
+          },
+          "title": {
+            "type": "string",
+            "description": "Resource title",
+            "examples": [
+              "Muy buen libro"
+            ]
+          },
+          "comment": {
+            "type": "string",
+            "description": "Resource author",
+            "examples": [
+              "Un clásico de la literatura",
+              "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+              "porque cada vez que lo lees y a medida que vas madurando",
+              "el significado cambia a nuestros ojos."
+            ]
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [
+              5
+            ],
+            "minimum": 0,
+            "maximum": 5
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "examples": [
+              5
+            ]
+          }
+        }
+      },
+      "CommentsList": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int64",
+              "examples": [
+                10
+              ]
+            },
+            "title": {
+              "type": "string",
+              "description": "Resource title",
+              "examples": [
+                "Muy buen libro"
+              ]
+            },
+            "comment": {
+              "type": "string",
+              "description": "Resource author",
+              "examples": [
+                "Un clásico de la literatura",
+                "lo hermoso de este libro es que NUNCA TE ABURRES DE ÉL",
+                "porque cada vez que lo lees y a medida que vas madurando",
+                "el significado cambia a nuestros ojos."
+              ]
+            },
+            "rating": {
+              "type": "integer",
+              "format": "int64",
+              "examples": [
+                5
+              ],
+              "minimum": 0,
+              "maximum": 5
+            },
+            "resource_id": {
+              "type": "integer",
+              "format": "int64",
+              "examples": [
+                5
+              ]
+            }
+          }
+        }
+      },
+      "ResourcePdf": {
+        "type": "string",
+        "description": "PDF URL",
+        "format": "URI",
+        "examples": [
+          "https://docs.google.com/file/d/0BwzOZ66Vc7YOOHVJbzRKOWpBOEE/edit?resourcekey=0-5JoNRuw6U0V2_EYZXnrhDg"
+        ]
+      }
+    }
+  }
+}
