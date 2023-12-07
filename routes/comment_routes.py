@@ -19,6 +19,7 @@ class CommentRoutes(Blueprint):
         self.route('/api/resources/comments/<int:comment_id>', methods=['PUT'])(self.updateComment)
         self.route('/api/resources/comments/<int:comment_id>', methods=['DELETE'])(self.deleteComment)
 
+    # Function to obtain comments data by specified resource_id
     def getComments(self, resource_id):
         try:
             self.comments = self.comment_service.getComments()
@@ -27,6 +28,7 @@ class CommentRoutes(Blueprint):
             log.exception(f'Error fetching data from the database: {e}')
             return jsonify({'error': 'Failed to fetch data from the database'}), 500
 
+    # Function that validates comment data and calls addComment service for the specified resource_id
     def addComment(self, resource_id):
         try:
             self.data = request.json
@@ -57,6 +59,7 @@ class CommentRoutes(Blueprint):
         except Exception as e:
             log.critical(f'Error adding a new comment to the database: {e}')
 
+    # Function that obtains comment data for the specified comment_id
     def getCommentById(self, comment_id):
         self.comment = self.comment_service.getCommentById(comment_id)
         if self.comment:
@@ -64,26 +67,28 @@ class CommentRoutes(Blueprint):
         else: 
             return jsonify({'error': 'Comment not found'}), 404
             
+    # Function that validates comment data and updates if there are any changes on them
+    # then calls updateComment service for the specified comment_id  
     def updateComment(self, comment_id):
         try:
             self.data = request.json
             if not self.data:
                 return jsonify({'error': 'Invalid data'}), 400
             
-             # Updates a Resource attributes 
+             # Resource attributes to update
 
             self.title = self.data.get('title')
             self.comment = self.data.get('comment')
             self.rating = self.data.get('rating')
 
             try: # Validations for the data
-                if self.title:
+                if self.title: 
                     self.comment_schema.validateTitle(self.title)
 
-                if self.comment:
+                if self.comment: 
                     self.comment_schema.validateComment(self.comment)
 
-                if self.rating:
+                if self.rating: 
                     self.comment_schema.validateRating(self.rating)
 
             except ValidationError as e:
@@ -91,6 +96,7 @@ class CommentRoutes(Blueprint):
             
             self.comment_updated = self.comment_service.updateComment(comment_id, self.data)
 
+            # Updating comment
             if self.comment_updated:
                 return jsonify(self.comment_updated), 200
             else:
@@ -99,6 +105,7 @@ class CommentRoutes(Blueprint):
         except Exception as e:
             log.critical(f'Error updating the comment in the database: {e}')
 
+    #Function to delete comment by specified comment_id
     def deleteComment(self, comment_id):
         try:
             self.comment_deleted = self.comment_service.deleteComment(comment_id)

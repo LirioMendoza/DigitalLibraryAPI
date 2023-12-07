@@ -8,8 +8,11 @@ class ResourceModel:
         self.client = None
         self.db = None
 
+    # Function that connects to the Database
     def connectToDatabase(self):
         load_dotenv()
+
+        # Obtains mongodb variables defined in .env file
         mongodb_user = os.environ.get('MONGODB_USER')
         mongodb_pass = os.environ.get('MONGODB_PASS')
         mongodb_host = os.environ.get('MONGODB_HOST')
@@ -35,6 +38,7 @@ class ResourceModel:
             log.critical(f'Failed to connect to the database: {e}')
             raise
 
+     # Function that terminates connection with the Database
     def closeConnection(self):
         if self.client:
             self.client.close()

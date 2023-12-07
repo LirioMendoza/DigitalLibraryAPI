@@ -18,6 +18,7 @@ class UserRoutes(Blueprint):
         self.route('/api/profile/<int:user_id>', methods=['PUT'])(self.updateUser)
         self.route('/api/profile/<int:user_id>', methods=['DELETE'])(self.deleteUser)
     
+    # Function that validates user data and calls addUser service for the specified user_id
     def addUser(self):
         try:
             self.data = request.json
@@ -54,7 +55,7 @@ class UserRoutes(Blueprint):
         except Exception as e:
             log.critical(f'Error adding a new user to the database: {e}')
 
-
+ # Function that obtains user data for the specified user_id
     def getUserById(self, user_id):
         self.user = self.user_service.getUserById(user_id)
         if self.user:
@@ -62,14 +63,15 @@ class UserRoutes(Blueprint):
         else: 
             return jsonify({'error': 'User not found'}), 404
 
-       
+    # Function that validates user data and updates if there are any changes 
+    # on them then calls updateUser service for the specified user_id  
     def updateUser(self, user_id):
         try:
             self.data = request.json
             if not self.data:
                 return jsonify({'error': 'Invalid data'}), 400
             
-             # Updates a User attributes 
+             # User attributes to update
             self.username = self.data.get('username')
             self.first_name = self.data.get('first_name')
             self.last_name = self.data.get('last_name')
@@ -96,6 +98,7 @@ class UserRoutes(Blueprint):
             except ValidationError as e:
                  return(jsonify({'error': 'Invalid data', 'details': e.messages}), 400)
             
+            # Updating user
             self.user_updated = self.user_service.updateUser(user_id, self.data)
 
             if self.user_updated:
@@ -106,7 +109,7 @@ class UserRoutes(Blueprint):
         except Exception as e:
             log.critical(f'Error updating the user in the database: {e}')
 
-
+    #Function to delete user by specified user_id
     def deleteUser(self, user_id):
         try:
             self.user_deleted = self.user_service.deleteUser(user_id)

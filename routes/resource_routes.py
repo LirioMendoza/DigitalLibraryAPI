@@ -21,15 +21,16 @@ class ResourceRoutes(Blueprint):
         
         self.route('/api/resources/<int:resource_id>/pdf', methods=['GET'])(self.getResourcePdf)
 
+    # Function to obtain resources data by specified resource_id
     def getResources(self):
         try:
-            
             self.resources = self.resource_service.getResources()
             return jsonify(self.resources), 200
         except Exception as e:
             log.exception(f'Error fetching data from the database: {e}')
             return jsonify({'error': 'Failed to fetch data from the database'}), 500
 
+    # Function that validates resource data and calls addResource service for the specified resource_id
     def addResource(self):
         try:
             self.data = request.json
@@ -41,7 +42,6 @@ class ResourceRoutes(Blueprint):
             self.description = self.data.get('description')
             self.pdf_url = self.data.get('pdf_url')
             self.book_cover = self.data.get('book_cover')
-
 
             try: # Validations for the data
                 self.resource_schema.validateTitle(self.title)
@@ -65,20 +65,23 @@ class ResourceRoutes(Blueprint):
         except Exception as e:
             log.critical(f'Error adding a new resource to the database: {e}')
 
+    # Function that obtains resource data for the specified resource_id
     def getResourceById(self, resource_id):
         self.resource = self.resource_service.getResourceById(resource_id)
         if self.resource:
             return jsonify(self.resource), 200
         else: 
             return jsonify({'error': 'Resource not found'}), 404
-            
+
+    # Function that validates resource data and updates if there are any changes on them
+    # then calls updateResource service for the specified resource_id       
     def updateResource(self, resource_id):
         try:
             self.data = request.json
             if not self.data:
                 return jsonify({'error': 'Invalid data'}), 400
             
-             # Updates a Resource attributes 
+             # Resource attributes to update
 
             self.title = self.data.get('title')
             self.author = self.data.get('author')
@@ -109,6 +112,7 @@ class ResourceRoutes(Blueprint):
 
             self.resource_updated = self.resource_service.updateResource(resource_id, self.data)
 
+            # Updating comment
             if self.resource_updated:
                 return jsonify(self.resource_updated), 200
             else:
@@ -117,7 +121,7 @@ class ResourceRoutes(Blueprint):
         except Exception as e:
             log.critical(f'Error updating the resource in the database: {e}')
 
-
+    #Function to delete resource by specified resource_id
     def deleteResource(self, resource_id):
         try:
             self.resource_deleted = self.resource_service.deleteResource(resource_id)
@@ -128,6 +132,7 @@ class ResourceRoutes(Blueprint):
         except Exception as e:
             log.critical(f'Error deleting the resource in the database: {e}')
 
+    # Function that obtains PDF file data for the specified resource_id
     def getResourcePdf(self, resource_id):
         self.resource_pdf = self.resource_service.getResourcePdf(resource_id)
         if self.resource_pdf:

@@ -14,7 +14,6 @@ from services.user_services import UserService
 from routes.user_routes import UserRoutes
 from schemas.user_schemas import UserSchema
 
-
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -28,6 +27,7 @@ swagger_ui_blueprint = get_swaggerui_blueprint(
         'app_name': 'Access API'
     }
 )
+
 app.register_blueprint(swagger_ui_blueprint, url_prefix=SWAGGER_URL)
 
 db_connector = ResourceModel()
