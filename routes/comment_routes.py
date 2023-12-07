@@ -22,7 +22,7 @@ class CommentRoutes(Blueprint):
     # Function to obtain comments data by specified resource_id
     def getComments(self, resource_id):
         try:
-            self.comments = self.comment_service.getComments()
+            self.comments = self.comment_service.getComments(resource_id)
             return jsonify(self.comments), 200
         except Exception as e:
             log.exception(f'Error fetching data from the database: {e}')
@@ -52,7 +52,7 @@ class CommentRoutes(Blueprint):
                 'title': self.title,
                 'comment': self.comment,
                 'rating': self.rating, 
-                'resource_id': resource_id
+                'resource_id': str(resource_id)
             }
             self.created_comment = self.comment_service.addComment(self.new_comment)
             return jsonify(self.created_comment), 201
