@@ -17,7 +17,7 @@ class UserService:
             log.critical(f'Error creating the new user: {e}')
             return jsonify({'error': f'Error creating the new user: {e}'}), 500
 
-    def getUser(self, user_id):
+    def getUserById(self, user_id):
         try:
             user = self.db_connector.db.users.find_one({'_id': str(user_id)})
             return user
@@ -25,27 +25,28 @@ class UserService:
             log.critical(f'Error fetching the user from the database: {e}')
             return jsonify({'error': f'Error fetching the user from the database: {e}'}), 500
 
-    def updateUser(self, user_id, update_data):
+    def updateUser(self, user_id, updated_data):
         try:
-            updated_user =self.getUser(user_id)
+            updated_user =self.getUserById(user_id)
             if updated_user:
-                result = self.db_connector.db.users.update_one({'_id':str(user_id)},{'$set': updated_user})
+                result = self.db_connector.db.users.update_one({'_id':str(user_id)},{'$set': updated_data})
                 print("Los datos a actualizar son:")
                 print(result)
                 if result.modified_count>0:
                     return updated_user
+
                 else:
                     return {'message': 'The user is already up-to-date'}
             else:
                 return None
                 
         except Exception as e:
-            log.critical(f'Error updating the user data User: {e}')
-            return jsonify({'error': f'Error updating the user data User: {e}'}), 500
+            log.critical(f'Error updating the user data: {e}')
+            return jsonify({'error': f'Error updating the user data: {e}'}), 500
 
     def deleteUser(self, user_id):
         try:
-            deleted_user = self.getUser(user_id)
+            deleted_user = self.getUserById(user_id)
             if deleted_user:
                 self.db_connector.db.users.delete_one({'_id': str(user_id)})
                 print("Delete User")
